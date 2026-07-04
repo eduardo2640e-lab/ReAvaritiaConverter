@@ -105,6 +105,43 @@ const UI = {
 
     showRecipe(index) {
 
+    const recipe = this.recipes[index];
+
+    if (!recipe)
+        return;
+
+    this.changePage("recipes");
+
+    const viewer = document.getElementById("recipeViewer");
+
+    viewer.innerHTML = `
+
+        <h2>${recipe.name}</h2>
+
+        <hr>
+
+        <p><b>Tipo:</b> ${recipe.type}</p>
+
+        <p><b>Resultado:</b> ${recipe.result ?? "Desconhecido"}</p>
+
+        <p><b>Quantidade:</b> ${recipe.count}</p>
+
+        <p><b>Tamanho:</b> ${recipe.size}x${recipe.size}</p>
+
+        <p><b>Ingredientes:</b> ${recipe.ingredientCount}</p>
+
+        <hr>
+
+        <p><b>Arquivo:</b></p>
+
+        <small>${recipe.path}</small>
+
+    `;
+
+    Logger.info("Receita aberta: " + recipe.name);
+
+}
+
         const recipe = this.recipes[index];
 
         if (!recipe)
