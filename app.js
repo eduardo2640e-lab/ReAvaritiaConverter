@@ -1,93 +1,119 @@
-const selectMod = document.getElementById("selectMod");
-const fileInput = document.getElementById("fileInput");
-const converter = document.getElementById("converter");
+const app = {
 
-const arquivo = document.getElementById("arquivo");
-const status = document.getElementById("status");
+    file: null,
 
-Logger.init("log");
+    zip: null,
 
-let selectedFile = null;
+    recipes: [],
 
-selectMod.addEventListener("click", () => {
-    fileInput.click();
-});
+    init() {
 
-fileInput.addEventListener("change", () => {
+        Logger.init("log");
 
-    if (fileInput.files.length === 0)
-        return;
+        UI.init();
 
-    selectedFile = fileInput.files[0];
+        this.bindEvents();
 
-    arquivo.textContent = selectedFile.name;
+        Logger.success("RAEC Studio iniciado.");
 
-    status.innerHTML =
-        "<b>Arquivo:</b> " + selectedFile.name +
-        "<br><b>Tamanho:</b> " +
-        (selectedFile.size / 1024 / 1024).toFixed(2) +
-        " MB";
+    },
 
-    converter.disabled = false;
+    bindEvents() {
 
-    Logger.info("Arquivo selecionado.");
-    Logger.info(selectedFile.name);
+        const selectButton = document.getElementById("selectMod");
+        const fileInput = document.getElementById("fileInput");
+        const scanButton = document.getElementById("converter");
 
-});
+        selectButton.addEventListener("click", () => {
 
-converter.addEventListener("click", async () => {
+            fileInput.click();
 
-    if (!selectedFile)
-        return;
+        });
 
-    Logger.info("Abrindo JAR...");
+        fileInput.addEventListener("change", (event) => {
 
-    status.innerHTML = "Abrindo arquivo...";
+            if (!event.target.files.length)
+                return;
 
-    try {
+            this.file = event.target.files[0];
 
-        const zip = await jarReader.open(selectedFile);
+            document.getElementById("arquivo").textContent =
+                this.file.name;
 
-        Logger.success("JAR aberto com sucesso.");
+            document.getElementById("status").innerHTML =
+                "<b>Arquivo:</b> " + this.file.name +
+                "<br><b>Tamanho:</b> " +
+                (this.file.size / 1024 / 1024).toFixed(2) +
+                " MB";
 
-        const resultado = await recipeScanner.scan(zip);
+            scanButton.disabled = false;
 
-        status.innerHTML = `
-            <b>Scanner concluído!</b>
-            <br><br>
-            📄 Arquivos encontrados: <b>${resultado.totalFiles}</b>
-            <br>
-            📚 Receitas encontradas: <b>${resultado.recipes.length}</b>
-            <br>
-            🏆 Advancements: <b>${resultado.advancements.length}</b>
-            <br>
-            🎁 Loot Tables: <b>${resultado.lootTables.length}</b>
-            <br>
-            🏷️ Tags: <b>${resultado.tags.length}</b>
-        `;
+            Logger.info("Arquivo selecionado:");
+            Logger.info(this.file.name);
 
-        Logger.success("Scanner concluído.");
-        Logger.info(resultado.recipes.length + " receitas encontradas.");
-        Logger.info(resultado.advancements.length + " advancements encontrados.");
-        Logger.info(resultado.lootTables.length + " loot tables encontradas.");
-        Logger.info(resultado.tags.length + " tags encontradas.");
+        });
 
-        console.table(resultado.recipes);
+        scanButton.addEventListener("click", () => {
+
+            this.scan();
+
+        });
+
+    },
+
+    async scan() {
+
+        if (!this.file)
+            return;
+
+        try {
+
+            Logger.info("Abrindo arquivo...");
+
+            this.zip = await jarReader.open(this.file);
+
+            Logger.success("Arquivo aberto.");
+
+            Logger.info("Escaneando receitas...");
+
+            const result = await recipeScanner.scan(this.zip);
+
+            this.recipes = result.recipes;
+
+            document.getElementById("status").innerHTML = `
+                <h3>Scanner concluído</h3>
+
+                Receitas: <b>${result.recipes.length}</b><br>
+
+                Advancements: <b>${result.advancements.length}</b><br>
+
+                Loot Tables: <b>${result.lootTables.length}</b><br>
+
+                Tags: <b>${result.tags.length}</b><br>
+
+                Arquivos: <b>${result.totalFiles}</b>
+            `;
+
+            UI.showRecipeList(result.recipes);
+
+            Logger.success("Scanner finalizado.");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            Logger.error("Erro ao abrir o mod.");
+
+        }
 
     }
 
-    catch (erro) {
+};
 
-        console.error(erro);
+window.addEventListener("DOMContentLoaded", () => {
 
-        Logger.error("Erro ao abrir o mod.");
-
-        status.innerHTML = `
-            <b>❌ Erro</b>
-            <br><br>
-            Não foi possível abrir esse arquivo.
-        `;
-
-    }
+    app.init();
 
 });
