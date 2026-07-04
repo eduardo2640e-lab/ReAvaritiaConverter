@@ -1,99 +1,99 @@
-const botaoSelecionar = document.getElementById("selectMod");
-const botaoConverter = document.getElementById("converter");
+const selectMod = document.getElementById("selectMod");
+const fileInput = document.getElementById("fileInput");
+const converter = document.getElementById("converter");
 
-const inputArquivo = document.getElementById("fileInput");
-
-const textoArquivo = document.getElementById("arquivo");
-
+const arquivo = document.getElementById("arquivo");
 const status = document.getElementById("status");
+const log = document.getElementById("log");
 
-let modFile = null;
+let selectedFile = null;
 
+function addLog(text) {
 
+    const hora = new Date().toLocaleTimeString();
 
-botaoSelecionar.addEventListener("click", () => {
+    log.textContent += "\n[" + hora + "] " + text;
 
-    inputArquivo.click();
+    log.scrollTop = log.scrollHeight;
+
+}
+
+selectMod.addEventListener("click", () => {
+
+    fileInput.click();
 
 });
 
+fileInput.addEventListener("change", () => {
 
-
-inputArquivo.addEventListener("change", () => {
-
-    if (inputArquivo.files.length === 0)
+    if (fileInput.files.length === 0)
         return;
 
-    modFile = inputArquivo.files[0];
+    selectedFile = fileInput.files[0];
 
-    textoArquivo.textContent = modFile.name;
+    arquivo.textContent = selectedFile.name;
 
     status.innerHTML =
-        "✅ Arquivo carregado.<br><br>" +
-        "<b>Nome:</b> " + modFile.name +
+        "<b>Arquivo:</b> " + selectedFile.name +
         "<br><b>Tamanho:</b> " +
-        (modFile.size / 1024 / 1024).toFixed(2) +
+        (selectedFile.size / 1024 / 1024).toFixed(2) +
         " MB";
 
-    botaoConverter.disabled = false;
+    converter.disabled = false;
+
+    addLog("Arquivo selecionado.");
+    addLog(selectedFile.name);
 
 });
 
+converter.addEventListener("click", async () => {
 
-
-botaoConverter.addEventListener("click", async () => {
-
-    if (!modFile)
+    if (!selectedFile)
         return;
 
-    status.innerHTML = "📦 Abrindo JAR...";
+    addLog("Abrindo JAR...");
+
+    status.innerHTML = "Abrindo arquivo...";
 
     try {
 
-        const zip = await JSZip.loadAsync(modFile);
+        const zip = await JSZip.loadAsync(selectedFile);
 
-        let totalArquivos = 0;
+        const resultado = await recipeScanner.scan(zip);
 
-        let receitas = [];
+        status.innerHTML = `
 
-        zip.forEach((caminho, arquivo) => {
+<b>Scanner concluído.</b>
 
-            totalArquivos++;
+<br><br>
 
-            if (
-                caminho.includes("/recipes/") ||
-                caminho.includes("/recipe/")
-            ) {
+Arquivos:
 
-                receitas.push(caminho);
+${resultado.totalFiles}
 
-            }
+<br>
 
-        });
+Receitas:
 
-        status.innerHTML =
-            "✅ Mod aberto com sucesso!<br><br>" +
+${resultado.recipes.length}
 
-            "📄 Arquivos: " +
-            totalArquivos +
+`;
 
-            "<br>📚 Receitas encontradas: " +
-            receitas.length +
+        addLog("Scanner concluído.");
 
-            "<br><br>Veja o Console para a lista completa.";
+        addLog(resultado.recipes.length + " receitas encontradas.");
 
-        console.log("Receitas encontradas:");
-
-        console.table(receitas);
+        console.table(resultado.recipes);
 
     }
 
-    catch (erro) {
+    catch (e) {
 
-        console.error(erro);
+        console.error(e);
 
-        status.innerHTML =
-            "❌ Não foi possível abrir esse arquivo.";
+        addLog("Erro ao abrir o mod.");
+
+        status.innerHTML = "Erro ao abrir o arquivo.";
 
     }
 
