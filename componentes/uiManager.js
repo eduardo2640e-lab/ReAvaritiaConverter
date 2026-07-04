@@ -2,6 +2,8 @@ const UI = {
 
     currentPage: "scanner",
 
+    recipes: [],
+
     init() {
 
         this.setupMenu();
@@ -50,11 +52,13 @@ const UI = {
 
         });
 
-        Logger.info("Tela: " + page);
+        Logger.info("Tela alterada para: " + page);
 
     },
 
     showRecipeList(recipes) {
+
+        this.recipes = recipes;
 
         const list = document.getElementById("recipeList");
 
@@ -66,17 +70,19 @@ const UI = {
 
         }
 
+        recipes.sort((a, b) => a.name.localeCompare(b.name));
+
         let html = "";
 
-        recipes.sort();
-
-        recipes.forEach(recipe => {
+        recipes.forEach((recipe, index) => {
 
             html += `
                 <div class="card recipe-item"
-                     data-path="${recipe}">
+                     data-index="${index}">
 
-                    📄 ${recipe}
+                    <b>📄 ${recipe.name}</b><br>
+
+                    <small>${recipe.result || "Sem resultado"}</small>
 
                 </div>
             `;
@@ -89,13 +95,44 @@ const UI = {
 
             item.addEventListener("click", () => {
 
-                Logger.info("Receita selecionada:");
-
-                Logger.info(item.dataset.path);
+                this.showRecipe(item.dataset.index);
 
             });
 
         });
+
+    },
+
+    showRecipe(index) {
+
+        const recipe = this.recipes[index];
+
+        if (!recipe)
+            return;
+
+        this.changePage("recipes");
+
+        this.setStatus(`
+            <h3>${recipe.name}</h3>
+
+            <b>Tipo:</b> ${recipe.type}<br>
+
+            <b>Resultado:</b> ${recipe.result}<br>
+
+            <b>Quantidade:</b> ${recipe.count}<br>
+
+            <b>Grade:</b> ${recipe.size}x${recipe.size}<br>
+
+            <b>Ingredientes:</b> ${recipe.ingredientCount}<br>
+
+            <br>
+
+            <b>Arquivo:</b><br>
+
+            ${recipe.path}
+        `);
+
+        Logger.info("Receita aberta: " + recipe.name);
 
     },
 
