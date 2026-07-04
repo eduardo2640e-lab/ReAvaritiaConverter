@@ -1,22 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAEC Converter</title>
 
-    <link rel="stylesheet" href="styles.css">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RAEC Studio</title>
+
+<link rel="stylesheet" href="estilos.css">
+
 </head>
 
 <body>
 
-<h1>Re:Avaritia Extended Crafting Converter</h1>
+<header>
 
-<p>Projeto em desenvolvimento.</p>
+<h1>⚡ RAEC Studio</h1>
 
-<button>Selecionar Mod</button>
+<p>Re:Avaritia Extended Crafting Converter</p>
+
+</header>
+
+<main>
+
+<div class="card">
+
+<h2>📂 Mod</h2>
+
+<button id="selectMod">
+Selecionar Re:Avaritia.jar
+</button>
+
+<p id="arquivo">
+Nenhum arquivo selecionado
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⭐ Singularidades</h2>
+
+<button disabled>
+Em breve
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>⚙ Configurações</h2>
+
+<button disabled>
+Em breve
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>🔄 Conversão</h2>
+
+<button id="converter" disabled>
+Converter
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📜 Status</h2>
+
+<div id="status">
+
+Aguardando seleção do arquivo...
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+Versão 0.1 Alpha
+
+</footer>
 
 <script src="app.js"></script>
 
 </body>
+
 </html>
