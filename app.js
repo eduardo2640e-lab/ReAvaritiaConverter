@@ -46,7 +46,7 @@ converter.addEventListener("click", async () => {
 
     try {
 
-        const zip = await JSZip.loadAsync(selectedFile);
+        const zip = await jarReader.open(selectedFile);
 
         Logger.success("JAR aberto com sucesso.");
 
