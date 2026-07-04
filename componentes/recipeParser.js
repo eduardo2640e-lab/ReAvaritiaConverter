@@ -7,19 +7,26 @@ const recipeParser = {
             const file = zip.file(recipePath);
 
             if (!file) {
+
                 Logger.warn("Arquivo não encontrado: " + recipePath);
+
                 return null;
+
             }
 
             const json = JSON.parse(await file.async("text"));
 
             const recipe = {
 
+                name: "",
+
                 path: recipePath,
 
-                type: json.type || "desconhecido",
+                type: json.type || "unknown",
 
                 result: null,
+
+                count: 1,
 
                 ingredients: [],
 
@@ -27,67 +34,87 @@ const recipeParser = {
 
                 size: 3,
 
+                ingredientCount: 0,
+
                 raw: json
 
             };
 
+            // Nome da receita
+            recipe.name = recipePath
+                .split("/")
+                .pop()
+                .replace(".json", "");
+
             // Resultado
             if (json.result) {
 
-                if (typeof json.result === "string")
+                if (typeof json.result === "string") {
+
                     recipe.result = json.result;
 
-                else
+                } else {
+
                     recipe.result =
                         json.result.id ||
                         json.result.item ||
                         json.result.result ||
                         null;
 
-            }
-
-            // Ingredientes (Shaped)
-            if (json.key) {
-
-                recipe.pattern = json.pattern || [];
-
-                for (const key in json.key) {
-
-                    recipe.ingredients.push({
-
-                        symbol: key,
-
-                        value: json.key[key]
-
-                    });
+                    recipe.count =
+                        json.result.count || 1;
 
                 }
 
             }
 
-            // Ingredientes (Shapeless)
-            if (json.ingredients) {
+            // Receita com pattern (Shaped)
+            if (Array.isArray(json.pattern)) {
 
-                recipe.ingredients = json.ingredients;
+                recipe.pattern = json.pattern;
+
+                recipe.size = json.pattern.length;
+
+                if (json.key) {
+
+                    for (const symbol in json.key) {
+
+                        recipe.ingredients.push({
+
+                            symbol,
+
+                            value: json.key[symbol]
+
+                        });
+
+                    }
+
+                }
 
             }
 
-            // Detectar tamanho
+            // Receita sem pattern (Shapeless)
+            else if (Array.isArray(json.ingredients)) {
 
-            if (recipe.pattern.length > 0)
-                recipe.size = recipe.pattern.length;
+                recipe.ingredients = json.ingredients;
 
-            Logger.success("Receita carregada: " + recipe.path);
+                recipe.size = 3;
+
+            }
+
+            recipe.ingredientCount = recipe.ingredients.length;
+
+            Logger.success("Receita carregada: " + recipe.name);
 
             return recipe;
 
         }
 
-        catch (erro) {
+        catch (error) {
 
-            Logger.error("Erro lendo " + recipePath);
+            console.error(error);
 
-            console.error(erro);
+            Logger.error("Erro lendo receita: " + recipePath);
 
             return null;
 
@@ -95,4 +122,4 @@ const recipeParser = {
 
     }
 
-};
+};};
