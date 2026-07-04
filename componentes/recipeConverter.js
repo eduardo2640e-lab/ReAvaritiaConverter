@@ -1,16 +1,60 @@
-export class RecipeConverter {
+const recipeScanner = {
 
-    constructor() {
-        this.recipes = [];
-    }
+    async scan(zip) {
 
-    convert() {
+        const resultado = {
 
-        return {
-            converted: 0,
-            skipped: 0
+            totalFiles: 0,
+
+            recipes: [],
+
+            recipeFiles: [],
+
+            advancements: [],
+
+            lootTables: [],
+
+            tags: []
+
         };
 
+        zip.forEach((path, file) => {
+
+            resultado.totalFiles++;
+
+            const lower = path.toLowerCase();
+
+            if (lower.includes("/recipes/") && lower.endsWith(".json")) {
+
+                resultado.recipes.push(path);
+                resultado.recipeFiles.push(file);
+
+            }
+
+            if (lower.includes("/advancements/") && lower.endsWith(".json")) {
+
+                resultado.advancements.push(path);
+
+            }
+
+            if (lower.includes("/loot_tables/") && lower.endsWith(".json")) {
+
+                resultado.lootTables.push(path);
+
+            }
+
+            if (lower.includes("/tags/") && lower.endsWith(".json")) {
+
+                resultado.tags.push(path);
+
+            }
+
+        });
+
+        resultado.recipes.sort();
+
+        return resultado;
+
     }
 
-}
+};
