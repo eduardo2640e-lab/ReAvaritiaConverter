@@ -58,11 +58,31 @@ const recipeScanner = {
         // Faz o parser de cada receita
         for (const path of recipePaths) {
 
-            const recipe = await recipeParser.parse(zip, path);
+            try {
 
-            if (recipe) {
+                Logger.info("Lendo: " + path);
 
-                resultado.recipes.push(recipe);
+                const recipe = await recipeParser.parse(zip, path);
+
+                if (recipe) {
+
+                    resultado.recipes.push(recipe);
+
+                } else {
+
+                    Logger.warn("Parser retornou null:");
+                    Logger.warn(path);
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                Logger.error("Erro na receita:");
+                Logger.error(path);
 
             }
 
