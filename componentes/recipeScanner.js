@@ -8,8 +8,6 @@ const recipeScanner = {
 
             recipes: [],
 
-            recipeFiles: [],
-
             advancements: [],
 
             lootTables: [],
@@ -18,6 +16,9 @@ const recipeScanner = {
 
         };
 
+        const recipePaths = [];
+
+        // Escaneia todos os arquivos do JAR
         zip.forEach((path, file) => {
 
             resultado.totalFiles++;
@@ -26,8 +27,7 @@ const recipeScanner = {
 
             if (lower.includes("/recipes/") && lower.endsWith(".json")) {
 
-                resultado.recipes.push(path);
-                resultado.recipeFiles.push(file);
+                recipePaths.push(path);
 
             }
 
@@ -51,7 +51,24 @@ const recipeScanner = {
 
         });
 
-        resultado.recipes.sort();
+        recipePaths.sort();
+
+        Logger.info("Receitas encontradas: " + recipePaths.length);
+
+        // Faz o parser de cada receita
+        for (const path of recipePaths) {
+
+            const recipe = await recipeParser.parse(zip, path);
+
+            if (recipe) {
+
+                resultado.recipes.push(recipe);
+
+            }
+
+        }
+
+        Logger.success("Receitas interpretadas: " + resultado.recipes.length);
 
         return resultado;
 
