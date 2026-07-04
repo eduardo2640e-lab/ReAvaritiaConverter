@@ -56,10 +56,10 @@
 
         <section class="card">
 
-            <h2>Selecionar Mod</h2>
+            <h2>📂 Selecionar Mod</h2>
 
             <button id="selectMod">
-                📂 Abrir Re:Avaritia.jar
+                Abrir Re:Avaritia.jar
             </button>
 
             <input
@@ -69,22 +69,20 @@
                 hidden>
 
             <p id="arquivo">
-
                 Nenhum arquivo selecionado
-
             </p>
 
         </section>
 
         <section class="card">
 
-            <h2>Scanner</h2>
+            <h2>🔍 Scanner</h2>
 
             <button
                 id="converter"
                 disabled>
 
-                🔍 Escanear Mod
+                Escanear Mod
 
             </button>
 
@@ -92,11 +90,11 @@
 
         <section class="card">
 
-            <h2>Status</h2>
+            <h2>📊 Status</h2>
 
             <div id="status">
 
-                Aguardando seleção do mod...
+                Aguardando seleção do arquivo...
 
             </div>
 
@@ -104,12 +102,10 @@
 
         <section class="card">
 
-            <h2>Log</h2>
+            <h2>📜 Log</h2>
 
             <pre id="log">
-
-RAEC Studio iniciado.
-
+RAEC Studio iniciado...
             </pre>
 
         </section>
@@ -124,12 +120,16 @@ RAEC Studio v0.3 Alpha
 
 </footer>
 
+<!-- Biblioteca para abrir arquivos .jar -->
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
+<!-- Componentes -->
 <script src="componentes/logger.js"></script>
 <script src="componentes/jarReader.js"></script>
+<script src="componentes/recipeParser.js"></script>
 <script src="componentes/recipeScanner.js"></script>
 
+<!-- Aplicação -->
 <script src="app.js"></script>
 
 </body>
