@@ -2,100 +2,89 @@
 <html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAEC Studio</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>RAEC Studio</title>
-
-<link rel="stylesheet" href="estilos.css">
-
+    <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
 
 <header>
 
-<h1>⚡ RAEC Studio</h1>
+    <h1>⚡ RAEC Studio</h1>
 
-<p>Re:Avaritia Extended Crafting Converter</p>
+    <p>Re:Avaritia Extended Crafting Converter</p>
 
 </header>
 
 <main>
 
-<div class="card">
+    <div class="card">
 
-<h2>📂 Mod</h2>
+        <h2>📂 Mod</h2>
 
-<button id="selectMod">
-Selecionar Re:Avaritia.jar
-</button>
+        <button id="selectMod">
+            Selecionar Re:Avaritia.jar
+        </button>
 
-<input
-type="file"
-id="fileInput"
-accept=".jar,.zip"
-style="display:none">
+        <input
+            type="file"
+            id="fileInput"
+            accept=".jar,.zip"
+            style="display:none">
 
-<p id="arquivo">
-Nenhum arquivo selecionado
-</p>
+        <p id="arquivo">
+            Nenhum arquivo selecionado
+        </p>
 
-<p id="arquivo">
-Nenhum arquivo selecionado
-</p>
+    </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <h2>⭐ Singularidades</h2>
 
-<h2>⭐ Singularidades</h2>
+        <button disabled>
+            Em breve
+        </button>
 
-<button disabled>
-Em breve
-</button>
+    </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <h2>⚙ Configurações</h2>
 
-<h2>⚙ Configurações</h2>
+        <button disabled>
+            Em breve
+        </button>
 
-<button disabled>
-Em breve
-</button>
+    </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <h2>🔄 Conversão</h2>
 
-<h2>🔄 Conversão</h2>
+        <button id="converter" disabled>
+            Converter
+        </button>
 
-<button id="converter" disabled>
-Converter
-</button>
+    </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <h2>📜 Status</h2>
 
-<h2>📜 Status</h2>
+        <div id="status">
+            Aguardando seleção do arquivo...
+        </div>
 
-<div id="status">
-
-Aguardando seleção do arquivo...
-
-</div>
-
-</div>
+    </div>
 
 </main>
 
 <footer>
-
-Versão 0.1 Alpha
-
+    Versão 0.1 Alpha
 </footer>
 
 <script src="app.js"></script>
