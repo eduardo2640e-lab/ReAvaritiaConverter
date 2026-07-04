@@ -4,62 +4,96 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RAEC Studio v0.3</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="estilos.css">
+    <title>RAEC Studio</title>
+
+    <link rel="stylesheet"
+          href="estilos.css">
 
 </head>
 
 <body>
 
-<header class="topbar">
+<header id="topbar">
 
-    <h1>⚡ RAEC Studio</h1>
+    <div>
 
-    <span>Re:Avaritia → Extended Crafting Converter</span>
+        <h1>⚡ RAEC Studio</h1>
+
+        <span>
+            Re:Avaritia Extended Crafting Studio
+        </span>
+
+    </div>
+
+    <div id="version">
+
+        v0.4 Alpha
+
+    </div>
 
 </header>
 
-<div class="container">
+<div id="layout">
 
-    <aside class="sidebar">
+    <aside id="sidebar">
 
-        <button class="menuButton active">
-            📦 Scanner
+        <button class="menu active"
+                data-page="scanner">
+            📂 Scanner
         </button>
 
-        <button class="menuButton">
-            ⭐ Singularidades
-        </button>
-
-        <button class="menuButton">
+        <button class="menu"
+                data-page="recipes">
             📜 Receitas
         </button>
 
-        <button class="menuButton">
+        <button class="menu"
+                data-page="singularities">
+            ⭐ Singularidades
+        </button>
+
+        <button class="menu"
+                data-page="config">
             ⚙ Configurações
         </button>
 
-        <button class="menuButton">
+        <button class="menu"
+                data-page="language">
             🌎 Idioma
         </button>
 
-        <button class="menuButton">
-            📤 Exportar
+        <button class="menu"
+                data-page="export">
+            📦 Exportar
+        </button>
+
+        <button class="menu"
+                data-page="about">
+            ℹ Sobre
         </button>
 
     </aside>
 
-    <main class="content">
+    <main id="workspace">
 
-        <section class="card">
+        <section
+            id="page-scanner"
+            class="page">
 
-            <h2>📂 Selecionar Mod</h2>
+            <h2>
+
+                Scanner
+
+            </h2>
 
             <button id="selectMod">
-                Abrir Re:Avaritia.jar
+
+                Selecionar Re:Avaritia.jar
+
             </button>
 
             <input
@@ -67,16 +101,6 @@
                 type="file"
                 accept=".jar,.zip"
                 hidden>
-
-            <p id="arquivo">
-                Nenhum arquivo selecionado
-            </p>
-
-        </section>
-
-        <section class="card">
-
-            <h2>🔍 Scanner</h2>
 
             <button
                 id="converter"
@@ -86,27 +110,117 @@
 
             </button>
 
-        </section>
+            <div id="arquivo">
 
-        <section class="card">
+                Nenhum arquivo selecionado.
 
-            <h2>📊 Status</h2>
+            </div>
 
             <div id="status">
 
-                Aguardando seleção do arquivo...
+                Aguardando...
 
             </div>
 
         </section>
 
-        <section class="card">
+        <section
+            id="page-recipes"
+            class="page hidden">
 
-            <h2>📜 Log</h2>
+            <h2>
 
-            <pre id="log">
-RAEC Studio iniciado...
-            </pre>
+                Receitas
+
+            </h2>
+
+            <div id="recipeList">
+
+                Nenhuma receita carregada.
+
+            </div>
+
+        </section>
+
+        <section
+            id="page-singularities"
+            class="page hidden">
+
+            <h2>
+
+                Singularidades
+
+            </h2>
+
+            <div id="singularityList">
+
+                Nenhuma singularidade.
+
+            </div>
+
+        </section>
+
+        <section
+            id="page-config"
+            class="page hidden">
+
+            <h2>
+
+                Configurações
+
+            </h2>
+
+            Em desenvolvimento.
+
+        </section>
+
+        <section
+            id="page-language"
+            class="page hidden">
+
+            <h2>
+
+                Idioma
+
+            </h2>
+
+            Português Brasil
+
+            <br>
+
+            English
+
+        </section>
+
+        <section
+            id="page-export"
+            class="page hidden">
+
+            <h2>
+
+                Exportar
+
+            </h2>
+
+            Em desenvolvimento.
+
+        </section>
+
+        <section
+            id="page-about"
+            class="page hidden">
+
+            <h2>
+
+                Sobre
+
+            </h2>
+
+            RAEC Studio
+
+            <br>
+
+            Conversor Re:Avaritia → Extended Crafting
 
         </section>
 
@@ -116,20 +230,27 @@ RAEC Studio iniciado...
 
 <footer>
 
-RAEC Studio v0.3 Alpha
+    <div id="log">
+
+        RAEC Studio iniciado...
+
+    </div>
 
 </footer>
 
-<!-- Biblioteca para abrir arquivos .jar -->
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
-<!-- Componentes -->
 <script src="componentes/logger.js"></script>
+<script src="componentes/uiManager.js"></script>
 <script src="componentes/jarReader.js"></script>
-<script src="componentes/recipeParser.js"></script>
 <script src="componentes/recipeScanner.js"></script>
+<script src="componentes/recipeParser.js"></script>
 <script src="componentes/recipeConverter.js"></script>
+<script src="componentes/singularityManager.js"></script>
+<script src="componentes/configManager.js"></script>
+<script src="componentes/languageManager.js"></script>
 <script src="componentes/kubeWriter.js"></script>
+<script src="componentes/exportManager.js"></script>
 
 <script src="app.js"></script>
 
