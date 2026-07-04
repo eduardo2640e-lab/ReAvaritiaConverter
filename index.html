@@ -2,94 +2,136 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAEC Studio</title>
+
+    <title>RAEC Studio v0.3</title>
 
     <link rel="stylesheet" href="estilos.css">
+
 </head>
 
 <body>
 
-<header>
+<header class="topbar">
 
     <h1>⚡ RAEC Studio</h1>
-    <p>Re:Avaritia → Extended Crafting Converter</p>
+
+    <span>Re:Avaritia → Extended Crafting Converter</span>
 
 </header>
 
-<main>
+<div class="container">
 
-    <div class="card">
+    <aside class="sidebar">
 
-        <h2>📂 Mod</h2>
-
-        <button id="selectMod">
-            Selecionar Re:Avaritia.jar
+        <button class="menuButton active">
+            📦 Scanner
         </button>
 
-        <input
-            type="file"
-            id="fileInput"
-            accept=".jar,.zip"
-            style="display:none">
-
-        <p id="arquivo">
-            Nenhum arquivo selecionado
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <h2>⭐ Singularidades</h2>
-
-        <button disabled>
-            Em breve
+        <button class="menuButton">
+            ⭐ Singularidades
         </button>
 
-    </div>
-
-    <div class="card">
-
-        <h2>⚙ Configurações</h2>
-
-        <button disabled>
-            Em breve
+        <button class="menuButton">
+            📜 Receitas
         </button>
 
-    </div>
-
-    <div class="card">
-
-        <h2>🔄 Conversão</h2>
-
-        <button id="converter" disabled>
-            Converter
+        <button class="menuButton">
+            ⚙ Configurações
         </button>
 
-    </div>
+        <button class="menuButton">
+            🌎 Idioma
+        </button>
 
-    <div class="card">
+        <button class="menuButton">
+            📤 Exportar
+        </button>
 
-        <h2>📜 Status</h2>
+    </aside>
 
-        <div id="status">
-            Aguardando seleção do arquivo...
-        </div>
+    <main class="content">
 
-    </div>
+        <section class="card">
 
-</main>
+            <h2>Selecionar Mod</h2>
+
+            <button id="selectMod">
+                📂 Abrir Re:Avaritia.jar
+            </button>
+
+            <input
+                id="fileInput"
+                type="file"
+                accept=".jar,.zip"
+                hidden>
+
+            <p id="arquivo">
+
+                Nenhum arquivo selecionado
+
+            </p>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Scanner</h2>
+
+            <button
+                id="converter"
+                disabled>
+
+                🔍 Escanear Mod
+
+            </button>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Status</h2>
+
+            <div id="status">
+
+                Aguardando seleção do mod...
+
+            </div>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Log</h2>
+
+            <pre id="log">
+
+RAEC Studio iniciado.
+
+            </pre>
+
+        </section>
+
+    </main>
+
+</div>
 
 <footer>
 
-RAEC Studio Alpha 0.2
+RAEC Studio v0.3 Alpha
 
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<script src="componentes/logger.js"></script>
+<script src="componentes/jarReader.js"></script>
+<script src="componentes/recipeScanner.js"></script>
+
 <script src="app.js"></script>
 
 </body>
+
 </html>
