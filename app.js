@@ -4,24 +4,13 @@ const converter = document.getElementById("converter");
 
 const arquivo = document.getElementById("arquivo");
 const status = document.getElementById("status");
-const log = document.getElementById("log");
+
+Logger.init("log");
 
 let selectedFile = null;
 
-function addLog(text) {
-
-    const hora = new Date().toLocaleTimeString();
-
-    log.textContent += "\n[" + hora + "] " + text;
-
-    log.scrollTop = log.scrollHeight;
-
-}
-
 selectMod.addEventListener("click", () => {
-
     fileInput.click();
-
 });
 
 fileInput.addEventListener("change", () => {
@@ -41,8 +30,8 @@ fileInput.addEventListener("change", () => {
 
     converter.disabled = false;
 
-    addLog("Arquivo selecionado.");
-    addLog(selectedFile.name);
+    Logger.info("Arquivo selecionado.");
+    Logger.info(selectedFile.name);
 
 });
 
@@ -51,7 +40,7 @@ converter.addEventListener("click", async () => {
     if (!selectedFile)
         return;
 
-    addLog("Abrindo JAR...");
+    Logger.info("Abrindo JAR...");
 
     status.innerHTML = "Abrindo arquivo...";
 
@@ -59,41 +48,45 @@ converter.addEventListener("click", async () => {
 
         const zip = await JSZip.loadAsync(selectedFile);
 
+        Logger.success("JAR aberto com sucesso.");
+
         const resultado = await recipeScanner.scan(zip);
 
         status.innerHTML = `
+            <b>Scanner concluído!</b>
+            <br><br>
+            📄 Arquivos encontrados: <b>${resultado.totalFiles}</b>
+            <br>
+            📚 Receitas encontradas: <b>${resultado.recipes.length}</b>
+            <br>
+            🏆 Advancements: <b>${resultado.advancements.length}</b>
+            <br>
+            🎁 Loot Tables: <b>${resultado.lootTables.length}</b>
+            <br>
+            🏷️ Tags: <b>${resultado.tags.length}</b>
+        `;
 
-<b>Scanner concluído.</b>
-
-<br><br>
-
-Arquivos:
-
-${resultado.totalFiles}
-
-<br>
-
-Receitas:
-
-${resultado.recipes.length}
-
-`;
-
-        addLog("Scanner concluído.");
-
-        addLog(resultado.recipes.length + " receitas encontradas.");
+        Logger.success("Scanner concluído.");
+        Logger.info(resultado.recipes.length + " receitas encontradas.");
+        Logger.info(resultado.advancements.length + " advancements encontrados.");
+        Logger.info(resultado.lootTables.length + " loot tables encontradas.");
+        Logger.info(resultado.tags.length + " tags encontradas.");
 
         console.table(resultado.recipes);
 
     }
 
-    catch (e) {
+    catch (erro) {
 
-        console.error(e);
+        console.error(erro);
 
-        addLog("Erro ao abrir o mod.");
+        Logger.error("Erro ao abrir o mod.");
 
-        status.innerHTML = "Erro ao abrir o arquivo.";
+        status.innerHTML = `
+            <b>❌ Erro</b>
+            <br><br>
+            Não foi possível abrir esse arquivo.
+        `;
 
     }
 
