@@ -340,3 +340,42 @@ td{
     }
 
 }
+#recipeContainer{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+#recipeList{
+
+    width:40%;
+
+}
+
+#recipeViewer{
+
+    flex:1;
+
+    background:#262626;
+
+    border-radius:8px;
+
+    padding:20px;
+
+    min-height:420px;
+
+}
+
+.recipe-item{
+
+    cursor:pointer;
+
+}
+
+.recipe-item:hover{
+
+    background:#333;
+
+}
